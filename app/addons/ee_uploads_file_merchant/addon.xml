@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<addon scheme="3.0">
+    <id>ee_uploads_file_merchant</id>
+    <version>1.0.0</version>
+    <status>active</status>
+    <auto_install>MULTIVENDOR,ULTIMATE</auto_install>
+    <default_language>ru</default_language>
+
+    <has_icon>Y</has_icon>
+    <supplier>efimchenko.ru</supplier>
+    <supplier_link>https://efimchenko.ru</supplier_link>
+
+    <settings layout="separate" edition_type="ROOT,VENDOR,STOREFRONT">
+        <sections>
+            <section id="general">
+                <items>
+                    <item id="ee_max_file_size">                      
+                        <type>input</type>
+						<default_value>2</default_value>
+                    </item>
+					<item id="ee_select_file_types">
+					   <type>multiple select</type>
+					   <variants>
+						   <item id="jpeg"></item>
+						   <item id="jpg"></item>
+						   <item id="bmp"></item>
+						   <item id="gif"></item>
+						   <item id="png"></item>
+						   <item id="txt"></item>
+						   <item id="xls"></item>
+						   <item id="xlsx"></item>
+						   <item id="docx"></item>
+						   <item id="odf"></item>
+						   <item id="doc"></item>
+						   <item id="pdf"></item>
+						   <item id="csv"></item>
+					   </variants>
+					</item>
+                    <item id="ee_type_payment">
+                        <type>selectbox</type>
+                    </item>
+                    <item id="ee_give_cp_attachments">
+                        <type>checkbox</type>
+						<default_value>Y</default_value>
+                    </item>
+                    <item id="ee_give_archive">
+                        <type>checkbox</type>
+						<default_value>N</default_value>
+                    </item>
+					<item id="ee_give_multiloads">
+                        <type>checkbox</type>
+						<default_value>N</default_value>
+                    </item>					
+                </items>
+            </section>
+        </sections>
+    </settings>
+
+    <functions>
+        <item for="install">fn_ee_uploads_file_merchant_install</item>
+        <item for="uninstall">fn_ee_uploads_file_merchant_uninstall</item>
+    </functions>
+</addon>

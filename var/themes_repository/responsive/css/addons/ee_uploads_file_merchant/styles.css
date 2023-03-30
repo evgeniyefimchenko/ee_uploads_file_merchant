@@ -1,0 +1,9 @@
+.ty-fileuploader__file-local.upload-file-local a {
+	font-size: 14px;	
+}
+.ty-fileuploader__file-local.upload-file-local {
+	cursor: pointer;
+}
+.ty-fileuploader__file-input {
+	font-size: 0;
+}

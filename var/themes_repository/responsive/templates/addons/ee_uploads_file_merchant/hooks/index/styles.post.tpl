@@ -1,0 +1,1 @@
+{style src="addons/ee_uploads_file_merchant/styles.css"}

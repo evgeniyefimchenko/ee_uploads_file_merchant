@@ -1,0 +1,125 @@
+msgid ""
+msgstr "Project-Id-Version: tygh"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Russian\n"
+"Language: ru_RU"
+
+msgctxt "Addons::name::ee_uploads_file_merchant"
+msgid "ee_uploads_file_merchant_name"
+msgstr "[efimchenko.ru] Модуль загрузки файлов для типа оплаты"
+
+msgctxt "Addons::description::ee_uploads_file_merchant"
+msgid "ee_uploads_file_merchant_description"
+msgstr "Позволяет загружать файл определённого типа для выбранного метода оплаты в чекауте."
+
+msgctxt "SettingsSections::ee_uploads_file_merchant::general"
+msgid "ee_uploads_file_merchant_general"
+msgstr "Общее"
+
+msgctxt "SettingsOptions::ee_uploads_file_merchant::ee_max_file_size"
+msgid "ee_max_file_size"
+msgstr "Максимальный размер файла"
+
+msgctxt "SettingsTooltips::ee_uploads_file_merchant::ee_max_file_size"
+msgid "ee_max_file_size_tooltips"
+msgstr "В мегабайтах. Не может превысить максимальный размер выставленный настройками WEB-сервера!"
+
+msgctxt "SettingsOptions::ee_uploads_file_merchant::ee_type_payment"
+msgid "ee_select_file_types"
+msgstr "Для какого типа оплаты"
+
+msgctxt "SettingsTooltips::ee_uploads_file_merchant::ee_type_payment"
+msgid "ee_select_file_types_tooltips"
+msgstr "Выберите тип оплаты для которого будет применяться загрузка документов"
+
+msgctxt "SettingsOptions::ee_uploads_file_merchant::ee_select_file_types"
+msgid "ee_select_file_types"
+msgstr "Допустимые типы файлов"
+
+msgctxt "SettingsTooltips::ee_uploads_file_merchant::ee_select_file_types"
+msgid "ee_select_file_types_tooltips"
+msgstr "Для добавления типов файлов требуется доработка кода модуля"
+
+msgctxt "SettingsOptions::ee_uploads_file_merchant::ee_give_archive"
+msgid "ee_give_archive"
+msgstr "Архивировать файл/лы после загрузки"
+
+msgctxt "SettingsTooltips::ee_uploads_file_merchant::ee_give_archive"
+msgid "ee_give_archive_tooltips"
+msgstr "Загруженные файлы будут заархивированны, если класс PHP ZipArchive установлен."
+
+msgctxt "SettingsOptions::ee_uploads_file_merchant::ee_give_multiloads"
+msgid "ee_give_multiloads"
+msgstr "Множественная загрузка файлов"
+
+msgctxt "SettingsTooltips::ee_uploads_file_merchant::ee_give_multiloads"
+msgid "ee_give_multiloads_tooltips"
+msgstr "Использовать множественную загрузку файлов. Рекомендуется включить архивирование."
+
+msgctxt "SettingsOptions::ee_uploads_file_merchant::ee_give_cp_attachments"
+msgid "ee_give_cp_attachments"
+msgstr "Использовать модуль Прикреплённые файлы"
+
+msgctxt "SettingsTooltips::ee_uploads_file_merchant::ee_give_cp_attachments"
+msgid "ee_give_cp_attachments_tooltips"
+msgstr "Файлы будут записываться модулем Прикреплённые файлы Модуль должен быть установлен и включен!"
+
+msgctxt "SettingsVariants::ee_uploads_file_merchant::ee_select_file_types::jpeg"
+msgid "ee_select_file_types_jpeg"
+msgstr "jpeg"
+
+msgctxt "SettingsVariants::ee_uploads_file_merchant::ee_select_file_types::jpg"
+msgid "ee_select_file_types_jpg"
+msgstr "jpg"
+
+msgctxt "SettingsVariants::ee_uploads_file_merchant::ee_select_file_types::bmp"
+msgid "ee_select_file_types_bmp"
+msgstr "bmp"
+
+msgctxt "SettingsVariants::ee_uploads_file_merchant::ee_select_file_types::gif"
+msgid "ee_select_file_types_gif"
+msgstr "gif"
+
+msgctxt "SettingsVariants::ee_uploads_file_merchant::ee_select_file_types::png"
+msgid "ee_select_file_types_png"
+msgstr "png"
+
+msgctxt "SettingsVariants::ee_uploads_file_merchant::ee_select_file_types::txt"
+msgid "ee_select_file_types_txt"
+msgstr "txt"
+
+msgctxt "SettingsVariants::ee_uploads_file_merchant::ee_select_file_types::xls"
+msgid "ee_select_file_types_xls"
+msgstr "xls"
+
+msgctxt "SettingsVariants::ee_uploads_file_merchant::ee_select_file_types::xlsx"
+msgid "ee_select_file_types_xlsx"
+msgstr "xlsx"
+
+msgctxt "SettingsVariants::ee_uploads_file_merchant::ee_select_file_types::docx"
+msgid "ee_select_file_types_docx"
+msgstr "docx"
+
+msgctxt "SettingsVariants::ee_uploads_file_merchant::ee_select_file_types::odf"
+msgid "ee_select_file_types_odf"
+msgstr "odf"
+
+msgctxt "SettingsVariants::ee_uploads_file_merchant::ee_select_file_types::doc"
+msgid "ee_select_file_types_doc"
+msgstr "doc"
+
+msgctxt "SettingsVariants::ee_uploads_file_merchant::ee_select_file_types::pdf"
+msgid "ee_select_file_types_pdf"
+msgstr "pdf"
+
+msgctxt "SettingsVariants::ee_uploads_file_merchant::ee_select_file_types::csv"
+msgid "ee_select_file_types_csv"
+msgstr "csv"
+
+msgctxt "Languages::ee_file_is_too_large"
+msgid "ee_file_is_too_large"
+msgstr "Файл не загружен, превышен максимальный размер"
+
+msgctxt "Languages::ee_orders_files"
+msgid "ee_orders_files"
+msgstr "Загруженные файлы"
