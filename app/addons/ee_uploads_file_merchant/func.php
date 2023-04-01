@@ -25,6 +25,10 @@ function fn_ee_uploads_file_merchant_place_order($order_id, $action, $order_stat
 	$all_files = [];
 	$uploadFileDir = fn_get_files_dir_path() . 'ee_file_upload/';
 	$allowedfileExtensions = array_keys($module_settings['ee_select_file_types']);
+	if (!count($allowedfileExtensions)) {
+		fn_set_notification('E', __('error'), __('ee_not_allowed_extensions'));
+		return true;
+	}
 	if (!file_exists($uploadFileDir)) {
 		mkdir($uploadFileDir, 0755, true);
 	}
@@ -41,7 +45,7 @@ function fn_ee_uploads_file_merchant_place_order($order_id, $action, $order_stat
 				$fileType = $_FILES['file_customer_files']['type'][$key];
 
 				if (round($fileSize / 1024 / 1024) > $module_settings['ee_max_file_size']) {
-					$message .= ' ' . __('ee_file_is_too_large') . ' ' . $module_settings['ee_max_file_size'] . ' М';
+					$message .= ' ' . __('ee_file_is_too_large') . ' ' . $module_settings['ee_max_file_size'] . ' Mb';
 				}
 				
 				$fileNameCmps = explode(".", $fileName);
@@ -74,23 +78,23 @@ function fn_ee_uploads_file_merchant_place_order($order_id, $action, $order_stat
 					$zip->addFile($file['dest_path'], $file['fileName']);												
 				}
 				$zip->close();
-				$pre_temp_url = (defined('HTTPS') ? 'https://' : 'http://') . REAL_HOST . '/' . stristr($dest_path, 'var/files/') . ';';				
+				$pre_temp_url = (defined('HTTPS') ? 'https://' : 'http://') . REAL_HOST . '/' . stristr($dest_path, 'var/files/');				
 				foreach ($all_files as $file) {
 					unlink($file['dest_path']);
 				}
 				if ($module_settings['ee_give_cp_attachments'] == 'Y' && $attachments_settings && $attachments_settings['status'] == 'A') {
 					$file_info = pathinfo($dest_path);
 					fn_update_attachments(
-						['description' => 'checkout', 'position' => 666, 'usergroup_ids' => 0],
+						['description' => 'checkout', 'position' => 666, 'usergroup_ids' => 0, 'on_server' => 'Y'],
 						0,
-						'order',
+						'orders',
 						$order_id,
 						'M',
 						['name' => $file_info['filename'], 'url' => $pre_temp_url, 'path' => $file_info['dirname'] . '/' . $file_info['basename'], 'size' => filesize($file_info['dirname'] . '/' . $file_info['basename'])],
 						DESCR_SL
 					);
 				} else {
-					db_query('UPDATE ?:orders SET ee_customer_url = ?s WHERE order_id = ?i', $pre_temp_url, $order_id);
+					db_query('UPDATE ?:orders SET ee_customer_url = ?s WHERE order_id = ?i', $pre_temp_url . ';', $order_id);
 				}
 			} else {
 				foreach ($all_files as $file) {
@@ -102,9 +106,9 @@ function fn_ee_uploads_file_merchant_place_order($order_id, $action, $order_stat
 					foreach ($arr_files as $item) {
 						$file_info = pathinfo($item);
 						fn_update_attachments(
-							['description' => 'checkout', 'position' => 666, 'usergroup_ids' => 0],
+							['description' => 'checkout', 'position' => 666, 'usergroup_ids' => 0, 'on_server' => 'Y'],
 							0,
-							'order',
+							'orders',
 							$order_id,
 							'M',
 							['name' => $file_info['filename'], 'url' => $item, 'path' => $file_info['dirname'] . '/' . $file_info['basename'], 'size' => filesize($file_info['dirname'] . '/' . $file_info['basename'])],

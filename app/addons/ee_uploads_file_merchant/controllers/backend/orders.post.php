@@ -15,7 +15,14 @@ if ($mode == 'details') {
 		}
 	} else {
 		if (function_exists('fn_get_attachments')) {
-			fn_print_r(fn_get_attachments('order', $order_info['order_id']));
+			$arr = fn_get_attachments('orders', $order_info['order_id']);
+			$res_arr = [];
+			if (is_array($arr)) {
+				foreach ($arr as $item) {
+					$res_arr[] = $item['url'];
+				}
+			}
+			Tygh::$app['view']->assign('ee_orders_files', $res_arr);
 		}
 	}
 }

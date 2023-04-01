@@ -48,6 +48,14 @@ msgctxt "SettingsTooltips::ee_uploads_file_merchant::ee_give_archive"
 msgid "ee_give_archive_tooltips"
 msgstr "Загруженные файлы будут заархивированны, если класс PHP ZipArchive установлен."
 
+msgctxt "SettingsOptions::ee_uploads_file_merchant::ee_show_list"
+msgid "ee_show_list"
+msgstr "Вывести список в админ-панели заказа"
+
+msgctxt "SettingsTooltips::ee_uploads_file_merchant::ee_show_list"
+msgid "ee_show_list_tooltips"
+msgstr "Выведет простой список загруженных файлов в заказах. Актуально если не используется сторонний модуль для вывода Прилеплённых файлов заказа."
+
 msgctxt "SettingsOptions::ee_uploads_file_merchant::ee_give_multiloads"
 msgid "ee_give_multiloads"
 msgstr "Множественная загрузка файлов"
@@ -123,3 +131,7 @@ msgstr "Файл не загружен, превышен максимальны�
 msgctxt "Languages::ee_orders_files"
 msgid "ee_orders_files"
 msgstr "Загруженные файлы"
+
+msgctxt "Languages::ee_not_allowed_extensions"
+msgid "ee_not_allowed_extensions"
+msgstr "Нет разрешенных расширений файлов"
