@@ -17,11 +17,35 @@ function fn_ee_uploads_file_merchant_uninstall() {
 	return true;
 }
 
+function fn_ee_file_force_download($file) {
+  if (file_exists($file)) {
+    if (ob_get_level()) {
+      ob_end_clean();
+    }
+    header('Content-Description: File Transfer');
+    header('Content-Type: application/octet-stream');
+    header('Content-Disposition: attachment; filename=' . basename($file));
+    header('Content-Transfer-Encoding: binary');
+    header('Expires: 0');
+    header('Cache-Control: must-revalidate');
+    header('Pragma: public');
+    header('Content-Length: ' . filesize($file));
+    if ($fd = fopen($file, 'rb')) {
+      while (!feof($fd)) {
+        print fread($fd, 1024);
+      }
+      fclose($fd);
+    } else {
+		fn_print_die('file crash ' . $file);
+	}
+    exit;
+  }
+}
+
 function fn_ee_uploads_file_merchant_place_order($order_id, $action, $order_status, $cart, $auth) {
 	global $module_settings;
 	$attachments_settings = Registry::get('addons.attachments');	
 	$message = '';
-	$temp_url = '';
 	$all_files = [];
 	$uploadFileDir = fn_get_files_dir_path() . 'ee_file_upload/';
 	$allowedfileExtensions = array_keys($module_settings['ee_select_file_types']);
@@ -30,7 +54,7 @@ function fn_ee_uploads_file_merchant_place_order($order_id, $action, $order_stat
 		return true;
 	}
 	if (!file_exists($uploadFileDir)) {
-		mkdir($uploadFileDir, 0755, true);
+		mkdir($uploadFileDir, 0777, true);
 	}
 	if (!is_writable($uploadFileDir)) {
 		$message .= 'Not writable ' . $uploadFileDir;
@@ -55,7 +79,7 @@ function fn_ee_uploads_file_merchant_place_order($order_id, $action, $order_stat
 				if (in_array($fileExtension, $allowedfileExtensions)) {					
 					$dest_path = $uploadFileDir . $newFileName;		 
 					if (move_uploaded_file($fileTmpPath, $dest_path)) {
-						chmod($dest_path, 0755);						
+						chmod($dest_path, 0777);						
 						$all_files[] = array('dest_path' => $dest_path, 'fileName' => $fileName, '');
 					}
 					else {
@@ -65,8 +89,7 @@ function fn_ee_uploads_file_merchant_place_order($order_id, $action, $order_stat
 					$message .= 'The extension not allowed: ' . $fileExtension;
 				}
 			}
-		}
-		// ô Ø·ãñë ¨Ò ª ½Ðñ ¨ãÐ· Ô¨å Öõ·¢ÖÆ 		
+		}		
 		if (mb_strlen($message) > 0) {
 			fn_set_notification('E', __('error'), trim($message));
 		} else {					
@@ -78,46 +101,42 @@ function fn_ee_uploads_file_merchant_place_order($order_id, $action, $order_stat
 					$zip->addFile($file['dest_path'], $file['fileName']);												
 				}
 				$zip->close();
-				$pre_temp_url = (defined('HTTPS') ? 'https://' : 'http://') . REAL_HOST . '/' . stristr($dest_path, 'var/files/');				
-				foreach ($all_files as $file) {
-					unlink($file['dest_path']);
-				}
 				if ($module_settings['ee_give_cp_attachments'] == 'Y' && $attachments_settings && $attachments_settings['status'] == 'A') {
-					$file_info = pathinfo($dest_path);
-					fn_update_attachments(
-						['description' => 'checkout', 'position' => 666, 'usergroup_ids' => 0, 'on_server' => 'Y'],
+					$file_info = pathinfo($dest_path);					
+					fn_update_attachments (
+						['description' => 'Order ' . $order_id, 'position' => 666, 'usergroup_ids' => 0, 'on_server' => 'Y'],
 						0,
 						'orders',
 						$order_id,
 						'M',
-						['name' => $file_info['filename'], 'url' => $pre_temp_url, 'path' => $file_info['dirname'] . '/' . $file_info['basename'], 'size' => filesize($file_info['dirname'] . '/' . $file_info['basename'])],
+						['name' => $file_info['basename'], 'url' => '', 'path' => $dest_path, 'size' => filesize($dest_path)],
 						DESCR_SL
 					);
-				} else {
-					db_query('UPDATE ?:orders SET ee_customer_url = ?s WHERE order_id = ?i', $pre_temp_url . ';', $order_id);
+					$dest_path = DIR_ROOT . '/var/attachments/orders/' . $order_id . '/' . $file_info['basename'];
 				}
+				db_query('UPDATE ?:orders SET ee_customer_url = ?s WHERE order_id = ?i', $dest_path, $order_id);
 			} else {
-				foreach ($all_files as $file) {
-					$dest_path = $file['dest_path'];
-					$pre_temp_url = (defined('HTTPS') ? 'https://' : 'http://') . REAL_HOST . '/' . stristr($dest_path, 'var/files/');					
-					$arr_files[] = $pre_temp_url;
-				}
 				if ($module_settings['ee_give_cp_attachments'] == 'Y' && $attachments_settings && $attachments_settings['status'] == 'A') {
-					foreach ($arr_files as $item) {
-						$file_info = pathinfo($item);
-						fn_update_attachments(
-							['description' => 'checkout', 'position' => 666, 'usergroup_ids' => 0, 'on_server' => 'Y'],
+					foreach ($all_files as $item) {
+						$attachment_id = fn_update_attachments (
+							['description' => 'Order ' . $order_id, 'position' => 666, 'usergroup_ids' => 0, 'on_server' => 'Y'],
 							0,
 							'orders',
 							$order_id,
 							'M',
-							['name' => $file_info['filename'], 'url' => $item, 'path' => $file_info['dirname'] . '/' . $file_info['basename'], 'size' => filesize($file_info['dirname'] . '/' . $file_info['basename'])],
+							['name' => $item['fileName'], 'url' => '', 'path' => $item['dest_path'], 'size' => filesize($item['dest_path'])],
 							DESCR_SL
 						);
+						$new_path_file = DIR_ROOT . '/var/attachments/orders/' . $order_id . '/' . $item['fileName'];
+						foreach ($all_files as $item_temp) {	
+							if ($item_temp['dest_path'] == $item['dest_path']) {
+								$res[] = $new_path_file;
+							}
+						}
 					}
-				} else {
-					db_query('UPDATE ?:orders SET ee_customer_url = ?s WHERE order_id = ?i', implode(';', $arr_files), $order_id);
+					$all_files = $res;					
 				}
+				db_query('UPDATE ?:orders SET ee_customer_url = ?s WHERE order_id = ?i', implode(';', $all_files), $order_id);
 			}
 		}		
 	}

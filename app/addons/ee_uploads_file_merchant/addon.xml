@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <addon scheme="3.0">
     <id>ee_uploads_file_merchant</id>
-    <version>1.1.1</version>
+    <version>1.1.2</version>
     <status>active</status>
     <auto_install>MULTIVENDOR,ULTIMATE</auto_install>
     <default_language>ru</default_language>
